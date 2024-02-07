@@ -1,5 +1,7 @@
 # Blog ve Döküman Yayınlama Platformu
 
+@hsncnylmz :+1: Sizin için özel olarak hazırladığım bu dökümanı sonuna kadar incelemenizi tavsiye ediyorum :four_leaf_clover:	
+
 ## Proje Tanımı
 
 Projemiz, kullanıcıların blog ve dökümanlarını oluşturmasına, düzenlemesine, yayınlamasına ve birbirleriyle etkileşimde bulunmasına olanak tanıyan geniş kapsamlı bir içerik yönetim sistemidir.
@@ -71,3 +73,86 @@ Projemiz, kullanıcıların blog ve dökümanlarını oluşturmasına, düzenlem
 ## Sonuç
 
 Bu proje, kullanıcıların içerik oluşturmasına, paylaşmasına ve etkileşimde bulunmasına olanak tanıyan kapsamlı bir içerik yönetim sistemidir. Kullanıcı dostu arayüzü, özel özellikleri ve topluluk oluşturmayı hedefleyen yapısıyla dikkat çeker. Her bir kullanıcı kendi profil sayfasını özelleştirebilir ve arama butonu ile istedikleri içeriklere hızlıca ulaşabilirler.
+
+# Django Paketleri ve İşlevleri
+
+Bu repository, Django web framework'ü üzerinde çalışırken kullanılabilecek bazı popüler Python paketlerini içerir.
+
+## Django
+
+Django, Python tabanlı bir web framework'üdür. Veritabanı yönetimi, URL yönlendirmeleri, şablona dayalı görünüm sistemleri gibi birçok özellik içerir. Web uygulamalarını hızlı bir şekilde geliştirmek için kullanılır.
+
+```bash
+pip install Django 
+```
+
+## Asgiref
+
+Django 3.0 ve sonraki sürümler, Asynchronous Server Gateway Interface (ASGI) sunucu desteği sağlar. Bu kütüphane, ASGI uyumlu uygulamalar ve sunucular arasında iletişimi kolaylaştırmak için kullanılır.
+
+```bash
+pip install asgiref
+```
+
+## django-ckeditor
+
+Django için zengin metin düzenleyici sağlayan bir uygulama. Kullanıcılara daha fazla metin düzenleme yeteneği eklemek için kullanılabilir.
+
+```bash
+pip install django-ckeditor
+```
+
+## django-js-asset
+
+Django'nun statik dosya yönetimini geliştirmek için kullanılır. JavaScript dosyalarınızı yönetmek ve optimize etmek için kullanışlıdır.
+
+```bash
+pip install django-js-asset
+```
+
+## Pillow
+
+Python Imaging Library'nin (PIL) devamıdır ve resim işleme işlevselliği sağlar. Django'nun ImageField'ı gibi bazı modüller için gereklidir.
+
+```bash
+pip install Pillow
+```
+
+## sqlparse
+
+SQL sorgularını analiz etmek, biçimlendirmek ve güzelce görüntülemek için kullanılır. Django'nun geliştirme ortamında SQL sorgularını daha iyi anlamak için kullanışlıdır.
+
+```bash
+pip install sqlparse
+```
+
+## tzdata
+
+Django'nun zaman dilimi (timezone) desteği için kullanılır. Belirli bir tarih veritabanı sürümünü belirtir ve zaman dilimi bilgilerini içerir.
+
+```bash
+pip install tzdata
+```
+
+> [!NOTE]
+> Bu paketler, genellikle Django projelerinizde farklı özellikleri eklemek veya geliştirmek için kullanılır. Örneğin, zengin metin düzenleme, resim işleme, statik dosya yönetimi gibi alanlarda Django'nun yeteneklerini artırmak için kullanışlıdırlar.
+
+
+> [!TIP]
+> # Nasıl Kullanılır
+> Proje klonlandıktan sonra, sanal bir ortam oluşturun ve bağımlılıkları yükleyin:
+
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+Django uygulamasını başlatın:
+
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+
+Uygulama http://localhost:8000/ adresinde çalışacak şekilde ayarlanmıştır. Tarayıcınızda bu adresi açarak uygulamayı görebilirsiniz.
