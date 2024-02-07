@@ -5,6 +5,7 @@
 Projemiz, kullanıcıların blog ve dökümanlarını oluşturmasına, düzenlemesine, yayınlamasına ve birbirleriyle etkileşimde bulunmasına olanak tanıyan geniş kapsamlı bir içerik yönetim sistemidir.
 
 ## Ana Özellikler
+![](static/img/code_blog_anasayfa.png)
 
 ### Blog Yönetimi
 
@@ -18,6 +19,7 @@ Projemiz, kullanıcıların blog ve dökümanlarını oluşturmasına, düzenlem
 
 - **Zengin Metin Formatları:** Döküman içerikleri CKEditor ile zengin metin formatlarında oluşturulabilir.
 - **Kategori ve Etiketleme:** Dökümanlar da kategorilere ve etiketlere ayrılabilir, bu da içerikleri daha iyi organize etmeyi sağlar.
+![](static/img/code_blog_dokument_pay.png)
 
 ### Kullanıcı Profil Yönetimi
 
@@ -31,6 +33,7 @@ Projemiz, kullanıcıların blog ve dökümanlarını oluşturmasına, düzenlem
 
 - **Etkileşim:** Kullanıcılar, bloglara ve dökümanlara yorum yapabilir, beğeni ve farklı reaksiyonlar ekleyebilirler.
 - **AJAX İle Anında Geri Bildirim:** AJAX kullanılarak sayfa yenilenmeden like-dislike ve reaksiyon butonları ile etkileşim sağlanmıştır.
+![](static/img/code_blog_sss_2.png)
 
 ### Yetkilendirme ve Rollendirme
 
