@@ -1,0 +1,140 @@
+{% load static %}
+
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-5">
+    <div class="container">
+        <!-- About and Newsletter START -->
+        <div class="row pt-3 pb-4">
+            <div class="col-md-3">
+                <img src="{% static 'img/footer-logo_.png' %}" alt="footer logo">
+            </div>
+            <div class="col-md-5">
+                <p class="text-secondary">Hergün sizlere birbirinden ilginç haberler ve sizler için beraber
+                    hazırladığımız rehberler ve dökümanları
+                    paylaşmaktan mutluluk duyarız.</p>
+            </div>
+            <div class="col-md-4">
+                <!-- Form -->
+                <form class="row row-cols-lg-auto g-2 align-items-center justify-content-end">
+                    <div class="col-12">
+                        <input type="email" class="form-control" placeholder="E-posta adresiniz">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary m-0">Abone Ol!</button>
+                    </div>
+                    <div class="form-text mt-2">Kişisel verileriniz ve Abonelikler hakkında daha fazla bilgi için
+                        <a href="#" class="text-decoration-underline text-reset">Gizlilik politikamızı</a> inceleye
+                        bilirsiniz.
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- About and Newsletter END -->
+
+        <!-- Divider -->
+        <hr>
+
+        <!-- Widgets START -->
+        <div class="row pt-5">
+                <!-- Footer Widget -->
+                <div class="col-md-6 col-lg-3 mb-4" style="color: aliceblue;">
+                    <h5 class="mb-4 text-white">Son gönderiler</h5>
+
+                    <!-- Item -->
+                    <div class="mb-4 position-relative">
+                        <div>
+                            <a href="#" class="badge text-bg-danger mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>{{ latest_post.category }}</a>
+                        </div>
+                        <a href="#" class="btn-link text-white fw-normal">{{ latest_post.title }}</a>
+                        <ul class="nav nav-divider align-items-center small mt-2 text-body-secondary">
+                            <li class="nav-item position-relative">
+                                <div class="nav-link">by <a href="#" class="stretched-link text-reset btn-link">{{ latest_post.author }}</a></div>
+                            </li>
+                            <li class="nav-item">{{ latest_post.publish_date }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            <!-- Footer Widget -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <h5 class="mb-4 text-white">Menü</h5>
+                <div class="row">
+                    <div class="col-6">
+                        <ul class="nav flex-column text-primary-hover">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Anasayfa</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'blogs' %}">Blog</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'community:question_list' %}">Soru Listesi</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'community:ask_question' %}">Soru Sor</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul class="nav flex-column text-primary-hover">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'paper:paper_list' %}">Dökümanlar</a></li>
+                            
+                            {% for blog in haber_tag.blog_set.all|slice:"0:1"|dictsortreversed:"publish_date" %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'blogs_by_tag' haber_tag.name %}" type="button" style="color: #2a6cbc;">
+                                    <i class="fa-solid fa-hashtag fa-sm"></i> {{ haber_tag.name }}
+                                    <span class="badge bg-danger ms-2">{{ haber_tag.usage_count }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+
+                            <li class="nav-item"><a class="nav-link" href="#">Yapay Zeka</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Widget -->
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <h5 class="mb-4 text-white">Çok Yakında Sizin İçin</h5>
+                <ul class="nav flex-column text-primary-hover">
+                    <li class="nav-item"><a class="nav-link" href="#">YouTube</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Website Bildirimleri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Podcasts</a></li>
+                </ul>
+            </div>
+
+            <!-- Footer Widget -->
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <!-- Hot topics START -->
+                <div class="row" style="color: aliceblue;">
+                    {% include 'blog/partials/_all_tags.html' %}
+                </div>
+                <!-- Hot topics END -->
+            </div>
+            <!-- Widgets END -->
+
+
+        </div>
+
+        <!-- Footer copyright START -->
+        <div class="bg-dark-overlay-3 mt-5">
+            <div class="container">
+                <div class="row align-items-center justify-content-md-between py-4">
+                    <div class="col-md-6">
+                        <!-- Copyright -->
+                        <div class="text-center text-md-start text-primary-hover text-secondary">©2023 <a href="#"
+                                class="text-reset btn-link" target="_blank">Code Blog</a>. Her hakkı saklıdır
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-sm-flex align-items-center justify-content-center justify-content-md-end">
+                        <!-- Links -->
+                        <ul
+                            class="nav text-primary-hover text-center text-sm-end justify-content-center justify-content-center mt-3 mt-md-0">
+                            <li class="nav-item"><a class="nav-link" href="#">Şartlar & Koşullar</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Gizlilik Politikası</a></li>
+                            <li class="nav-item"><a class="nav-link pe-0" href="#">Çerezler</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer copyright END -->
+    </div>
+</footer>
+
+<!-- =======================
+Footer END -->

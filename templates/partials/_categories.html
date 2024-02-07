@@ -1,0 +1,13 @@
+{% load static %}
+
+<div class="list-group mb-3">
+
+  {% for category in categories %}
+    {% if category.slug == selected_category %}
+      <a href="{% url 'blogs_by_category' category.slug %}" class="btn btn-outline-primary active mb-3">{{ category.name|title }}</a>
+    {% else %}
+      <a href="{% url 'blogs_by_category' category.slug %}" class="btn btn-outline-primary mb-3">{{ category.name|title }}</a>
+    {% endif %}
+  {% endfor %}
+
+</div>

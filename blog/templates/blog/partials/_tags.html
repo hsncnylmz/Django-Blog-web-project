@@ -1,0 +1,15 @@
+{% load static %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+{% endblock %}
+
+<h3 style="color: #2a6cbc;">Blog Tag:</h3>
+<div class="all-tags ">
+    {% for tag in blog.tags.all %}
+    <a href="{% url 'blogs_by_tag' tag.name %}" type="button" style="color: #2a6cbc;">
+        <p> <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag.name }}
+            <i style="color: chocolate;">{{ tag.usage_count }} </i>
+        </p>
+    </a>
+    {% endfor %}
+</div>

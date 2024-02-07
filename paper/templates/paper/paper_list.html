@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <h2>Dökümanlar</h2>
+        <hr>
+        <!-- Main content -->
+        <div class="col-lg-9 mb-3">
+            {% for paper in papers %}
+            <!-- End of post 1 -->
+            <div class="card row-hover pos-relative py-3 px-3 mb-3 border-warning border-top-0 border-right-0 border-bottom-0 rounded-0 bg-light">
+                <div class="row align-items-center">
+                    <div class="col-md-8 mb-3 mb-sm-0">
+                        <h5>
+                            <a href="{% url 'paper:paper_detail' slug=paper.slug %}" class="text-primary">{{ paper.title }}</a>
+                        </h5>
+                        <p>{{ paper.description|truncatechars:85|safe }}</p>
+                        <p class="text-sm"><span class="op-6">Paylaşım</span> <a class="text-black" href="#">{{ paper.publish_date|timesince }}</a> 
+                            <span class="op-6">önce by</span> <a class="text-black" href="#">{{ paper.author }}</a>
+                        </p>
+                        <div class="text-sm op-5" style="color: cadetblue;">
+                            {% for tag in paper.tags.all %}
+                            #{{ tag.name }}
+                            {% endfor %}</div>
+                    </div>
+                    <div class="col-md-4 op-7">
+                        <div class="row text-center op-7">
+                            <div class="col px-1"> 
+                                <span class="d-block text-sm">
+                                    {% if paper.price %}
+                                    <i class="fa-solid fa-lock fa-lg"></i>
+                                    {{ paper.price }}₺
+                                    {% else %}
+                                    
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="col px-1"> 
+                                <span class="d-block text-sm">
+                                    <i class="fa-solid fa-heart fa-lg"></i> 
+                                    {{ paper.likes }}
+                                </span>
+                            </div>
+                            <div class="col px-1"> 
+                                <i class="ion-ios-chatboxes-outline icon-1x"></i> 
+                                <span class="d-block text-sm">
+                                    <i class="fa-solid fa-file fa-lg"></i> 
+                                    {% if paper.file %}
+                                    <i class="fa-solid fa-check"></i>
+                                    {% else %}
+                                    <i class="fa-solid fa-xmark"></i>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="col px-1"> 
+                                <i class="ion-ios-eye-outline icon-1x"></i> 
+                                <span class="d-block text-sm">
+                                    <i class="fa-solid fa-eye fa-lg"></i> 
+                                    {{ paper.views_count }}
+                                </span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /End of post 1 -->
+            {% endfor %}
+
+            <!-- Sayfalama bağlantıları -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if papers.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ papers.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Sayfa {{ papers.number }} / {{ papers.paginator.num_pages }}.
+                    </span>
+                    {% if papers.has_next %}
+                    <a href="?page={{ papers.next_page_number }}">next</a>
+                    <a href="?page={{ papers.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Sidebar content -->
+        <div class="col-lg-3 mb-4 mb-lg-0 px-lg-0 mt-lg-0">
+            <div class="sticky-inner">
+                <div class="bg-white text-sm">
+                    <h4 class="px-3 py-4 op-5 m-0 roboto-bold">
+                        Tag
+                    </h4>
+                    <hr class="my-0">
+                    <div class=" mt-4 mb-4">
+                        {% for tag in tags %}
+                        <a class="badge bg-secondary" style="text-decoration:none; color:aliceblue;"href="{% url 'blogs_by_tag' tag.name %}">#{{ tag.name }} </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- _latest_papers -->
+                {% include 'paper/partials/_latest_papers.html' %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

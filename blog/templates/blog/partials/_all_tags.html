@@ -1,0 +1,19 @@
+{% load static %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+{% endblock %}
+
+<h3>Etiket kullanımları:</h3>
+<p>Blog içerisinde kullanılan tag <span class="badge bg-success">{{ all_tags|length }}</span></p>
+
+<h5>Etiketler</h5>
+<div class="all-tags mt-3 mb-5">
+{% for tag in all_tags %}
+<a href="{% url 'blogs_by_tag' tag.name %}" type="button" class="btn btn-info position-relative custom-button">
+    <i class="fa-solid fa-hashtag fa-sm"></i>{{ tag.name }}
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+        {{ tag.usage_count }} Post
+    </span>
+</a>
+{% endfor %}
+</div>

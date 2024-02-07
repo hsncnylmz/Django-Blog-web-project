@@ -1,0 +1,28 @@
+<!-- payment_failure.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container" style="margin-top: 250px; margin-bottom: 250px">
+
+        <section class="mail-seccess section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 offset-lg-3 col-12 text-center">
+                        <!-- Error Inner -->
+                        <div class="success-inner">
+                            <h1><i class="fa-solid fa-circle-exclamation fa-2xl" style="color: #ad0000;"></i></h1><br>
+                            <h1><span class="mt-4 mb-3">{{ fail_message }}</span></h1>
+                            <h5 class="mt-3 mb-4">Ödemeniz başarısız oldu. Lütfen tekrar deneyin veya destek ekibimizle iletişime geçin.</h5>
+                            <div class="mt-4 mb-4"><a href="{% url 'home' %}" class="btn btn-lg">Anasayfa</a></div>
+                        </div>
+                        <!--/ End Error Inner -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+    </div>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% load static %}
+
+<!-- Navbar with OffCanvas Button -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container mt-4">
+
+        <!--======= logo =========-->
+
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'img/logo.png' %}" alt="#">
+        </a>
+
+        <!--======= Menü =========-->
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav m-auto mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Anasayfa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blogs' %}">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'paper:paper_list' %}">Dökümanlar</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Soru&Cevap
+                    </a>
+                    <ul class="dropdown-menu p-2">
+                        <li><a href="{% url 'community:question_list' %}">Soru Listesi</a></li>
+                        <li><a href="{% url 'community:ask_question' %}">Soru Sor</a></li>                        
+                        <li>
+                            <!-- <hr class="dropdown-divider"> -->
+                        </li>
+                        <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="search-form-container">
+                <form id="searchForm" class="d-flex" action="{% url 'search_results' %}" method="get">
+                    <input id="searchInput" class="form-control border-0" type="text" name="q" placeholder="Arama..." style="display: none;">
+                    <button id="searchButton" class="btn btn-outline" type="button">
+                        <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #74C0FC;"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!--======= sağ Register menü =========-->
+            <ul class="navbar-nav me-2">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="btn btn-outline-info btn-sm" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket fa-lg" style="color: #F39200;"></i> Çıkış</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-info btn-sm" href="{% url 'profile' slug=user.username %}">
+                        {{ user.get_short_name|default:user.username|title }}
+                    </a>
+                        {% if user.userprofile.avatar %}
+                        <img class="rounded-circle" src="{{ user.userprofile.avatar.url }}" alt="Avatar" width="30" height="30">
+                        {% else %}
+                        <span class="fa-stack fa-sm">
+                            <i class="fas fa-circle fa-stack-2x" style="color: #F39200;"></i>
+                            <i class="fas fa-user fa-stack-1x fa-inverse"></i>
+                        </span>
+                        {% endif %}
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-outline-info btn-sm" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket fa-lg" style="color: #F39200;"></i> Giriş Yap</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-info btn-sm" href="{% url 'register' %}"><i class="fa-solid fa-user-plus fa-lg" style="color: #F39200;"></i> Kayıt Ol</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!--======= Menü End =========-->
+        <!-- OffCanvas Toggle Button -->
+        <button class="btn d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+            aria-controls="offcanvasRight">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+            </svg>
+        </button>
+</div>
+</nav>
+
+<!--========= OffCanvas Start  =========-->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <img class="my-3" src="{% static 'img/logo.png' %}" alt="logo">
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column pt-0">
+        <div>
+            <p>Hergün sizlere birbirinden ilginç haberler ve sizler için beraber hazırladığımız rehberler ve
+                dökümanları paylaşmaktan mutluluk duyarız.</p>
+            <!-- Nav START -->
+            <ul class="nav d-block flex-column my-4">
+                <li class="nav-item h5">
+                    <a class="nav-link" href="{% url 'home' %}">Anasayfa</a>
+                </li>
+                <li class="nav-item h5">
+                    <a class="nav-link" href="{% url 'blogs' %}">Blog</a>
+                </li>
+                <li class="nav-item h5">
+                    <a class="nav-link" href="{% url 'community:question_list' %}">Soru Listesi</a>
+                </li>
+                <li class="nav-item h5">
+                    <a class="nav-link" href="{% url 'community:ask_question' %}">Soru Sor</a>
+                </li>   
+                <li class="nav-item h5">
+                    <a class="nav-link" href="{% url 'paper:paper_list' %}">Dökümanlar</a>
+                </li>
+            </ul>
+            <div class="p-4 text-center">
+                <a class="btn btn-outline-info btn-sm" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket fa-lg" style="color: #F39200;"></i> Giriş Yap</a>
+            </div>
+            <!-- Nav END -->
+            <div class="bg-primary bg-opacity-10 p-4 mb-4 text-center w-100 rounded" style="color: aliceblue;">
+                <span>Code Blog</span>
+                <h3>Sende Aramıza Katıl</h3>
+                <p>İçindeki yazarı ortaya çıkar</p>
+                <a href="{% url 'register' %}" class="btn btn-warning">Şimdi Yazmaya Başla</a>
+            </div>
+        </div>
+        <div class="mt-auto pb-3">
+            <!-- E-posta -->
+            <a href="#" class="text-body d-block">hasanyilmazdsgn@gmail.com</a>
+        </div>
+    </div>
+</div>
+<!--========= OffCanvas End  =========-->
+
+{% block js_files %}
+<!-- <script src="{% static 'js/theme-switcher.js' %}"></script> -->
+<script>
+    var searchButton = document.getElementById('searchButton');
+    var searchInput = document.getElementById('searchInput');
+    var searchForm = document.getElementById('searchForm');
+    var isFirstClick = true;
+
+    // Butona tıklandığında
+    searchButton.addEventListener('click', function() {
+        // Arama kutusunu görünür yap ve odaklan
+        searchInput.style.display = 'flex';
+        searchInput.focus();
+
+        // İlk tıklamada gönderme işlemi yapma
+        if (!isFirstClick) {
+            // Eğer arama kutusu boşsa, belirlediğiniz metni gönder
+            if (searchInput.value.trim() === '') {
+                searchInput.value = 'Belirlediğiniz Metin';
+            }
+            searchForm.submit();
+        }
+
+        isFirstClick = false;
+    });
+
+    // Arama kutusu odak dışında bırakıldığında
+    searchInput.addEventListener('blur', function() {
+        // Eğer arama kutusu boşsa, kutuyu gizle
+        if (searchInput.value.trim() === '') {
+            searchInput.style.display = 'none';
+        }
+    });
+</script>
+
+{%endblock%}

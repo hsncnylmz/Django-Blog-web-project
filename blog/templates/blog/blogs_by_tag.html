@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-3 mb-5">
+    <div class="title mb-3">
+        <h1>Blogs by Tag: #{{ selected_tag }}</h1>
+    </div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for blog in blogs %}
+    <div class="col">
+        <div class="card h-100">
+            <img src="{{ blog.image.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'blog_details' blog.slug %}">{{ blog.title }}</a></h5>
+                <p class="card-text">{{ blog.description }}</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-body-secondary">Okuma Süresi {{ blog.reading_time }} dakika</small>
+
+            </div>
+            <div class="card-footer">
+
+                <small class="text-body-secondary">Paylaşım Tarihi {{ blog.publish_date }}</small>
+            </div>
+            <div class="card-footer">
+                {% for tag in blog.tags.all %}
+                <li>
+                    <a href="{% url 'blogs_by_tag' tag.name %}">#{{ tag.name }}</a>
+                    ({{ tag.usage_count }} post)
+                </li>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Gelecek cardlar burada listelenecek... -->
+    {% endfor %}
+</div>
+</div>
+{%endblock%}

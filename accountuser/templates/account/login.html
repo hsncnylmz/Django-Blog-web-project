@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'account/css/style.css' %}">
+{% endblock %}
+
+{% block title %} Giriş Sayfası {% endblock %}
+
+{% block content %}
+
+
+<!-- Giriş Sayfası İçerik alanı -->
+<div class="container">
+
+    <div class="row mt-4 mb-4">
+        <div class="col-4 d-none d-md-block"></div>
+
+        <div class="col-lg-4 col-md-12">
+            <h1>Giriş Yap</h1>
+            <hr>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                {% if error %}
+                <div class="alert alert-warning" role="alert">
+                    {{error}}
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="username" class="form-label"><p>Kullanıcı Adı</p></label>
+                    <input type="text" class="form-control" name="username">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label"><p>Şifre</p></label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="exampleCheck1"><p>Beni hatırla</p></label>
+                </div>
+                <input type="submit" value="Giriş Yap" class="btn btn-primary"></input>
+            </form>
+            <hr>
+            <a class="btn btn-outline" href="{% provider_login_url 'google' method='oauth2' %}"><p><i class="fa-brands fa-google fa-xl" style="color: #0179d5;"></i> Google ile Giriş Yap</p></a>
+
+        </div>
+        <div class="col-4 d-none d-md-block"></div>
+    </div>
+</div>
+
+{%endblock%}

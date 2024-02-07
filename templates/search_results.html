@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 d-none d-md-block"></div>
+        <div class="col-8">
+            <h2 class="mt-4 mb-3">Blog arama sonuçları</h2>
+            {% if blog_results %}
+                {% for blog in blog_results %}
+                    <div class="card mb-3 mt-3 border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ blog.title }}</h5>
+                            <p class="card-text">{{ blog.description | safe | slice:"0:260" }}</p>
+                            <a href="{% url 'blog_detail' slug=blog.slug %}" class="btn btn-outline" style="color:steelblue;"><p>Devamı</p></a>
+                            <p>Etiketler: 
+                                {% for tag in blog.tags.all %}
+                                    <a href="{% url 'search_results' %}?q={{ tag.name }}"><i class="fa-solid fa-hashtag fa-xs"></i>{{ tag.name }}</a>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if blog_results.paginator.num_pages > 1 %}
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if blog_results.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ blog_results.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ blog_results.number }} of {{ blog_results.paginator.num_pages }}.
+                            </span>
+
+                            {% if blog_results.has_next %}
+                                <a href="?page={{ blog_results.next_page_number }}">next</a>
+                                <a href="?page={{ blog_results.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+            {% else %}
+                <p>Arama sonuçlarında kaynak bulunamadı.</p>
+            {% endif %}
+        </div>
+        <div class="col-md-2 d-none d-md-block"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2 d-none d-md-block"></div>
+        <div class="col-8">
+            <h2 class="mt-4 mb-3">Paper arama sonuçları</h2>
+            {% if paper_results %}
+                {% for paper in paper_results %}
+                    <div class="card mb-3 mt-3 border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ paper.title }}</h5>
+                            <p class="card-text">{{ paper.description | safe | slice:"0:260" }}</p>
+                            <a href="{% url 'paper_detail' pk=paper.pk %}" class="btn btn-outline" style="color:steelblue;"><p>Devamı</p></a>
+                            <p>Etiketler: 
+                                {% for tag in paper.tags.all %}
+                                    <a href="{% url 'search_results' %}?q={{ tag.name }}"><i class="fa-solid fa-hashtag fa-xs"></i>{{ tag.name }}</a>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if paper_results.paginator.num_pages > 1 %}
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if paper_results.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ paper_results.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ paper_results.number }} of {{ paper_results.paginator.num_pages }}.
+                            </span>
+
+                            {% if paper_results.has_next %}
+                                <a href="?page={{ paper_results.next_page_number }}">Sonraki</a>
+                                <a href="?page={{ paper_results.paginator.num_pages }}">Önceki &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+            {% else %}
+                <p>Arama sonuçlarında kaynak bulunamadı.</p>
+            {% endif %}
+        </div>
+        <div class="col-md-2 d-none d-md-block"></div>
+    </div>
+</div>
+
+
+{% endblock %}

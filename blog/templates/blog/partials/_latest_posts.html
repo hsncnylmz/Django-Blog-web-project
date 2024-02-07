@@ -1,0 +1,22 @@
+<!-- blog/_latest_posts.html -->
+{% load static %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+{% endblock %}
+
+<div class="widget-title">
+    <h3 style="color:tomato">Son Bloglar</h3>
+</div>
+
+{% for post in latest_posts %}
+<div class="card widget-body  border rounded mt-4 mb-4">
+    <img src="{{ post.image.url }}" title="{{ post.title }}" alt="{{ post.title }}">
+
+<div class="card-body">
+    <a href="{% url 'blog_details' slug=post.slug %}">{{ post.title }}</a>
+</div>
+<div class="card-footer text-muted d-flex">
+    {{ post.author }} - {{ post.publish_date|date:"d M Y" }}
+</div>
+</div>
+{% endfor %}

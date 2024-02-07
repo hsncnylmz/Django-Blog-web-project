@@ -1,0 +1,51 @@
+{% load static %}
+<!-- _hero_banner.html -->
+
+<div class="row g-1 align-items-stretch retro-layout mb-5 mt-4">
+    <!-- Sol içerik (sol sütun) -->
+    <div class="col-md-5 col-sm-12">
+        {% if haber_tag.blog_set.all|length > 0 %}
+            {% with latest_blog=haber_tag.blog_set.latest %}
+                <div class="card text-white mid">
+                    <img src="{{ latest_blog.image.url }}" class="card-img" alt="...">
+                    <div class="card-img-overlay ">
+                        <div class="custom-card-body">
+                            <h5 class="card-title"><a href="{% url 'blog_details' latest_blog.slug %}"> {{ latest_blog.title }} </a></h5>
+                            <p class="card-text">{{ latest_blog.publish_date|timesince }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endwith %}
+        {% endif %}
+    </div>
+
+    <!-- Orta içerik (orta sütun) -->
+    <div class="col-md-5 col-sm-6">
+        {% for blog in haber_tag.blog_set.all|slice:"2:3"|dictsortreversed:"publish_date" %}
+        <div class="card text-white mid">
+            <img src="{{ blog.image.url }}" class="card-img" alt="...">
+            <div class="card-img-overlay">
+                <div class="custom-card-body">
+                    <h5 class="card-title"><a href="{% url 'blog_details' blog.slug %}"> {{ blog.title }} </a></h5>
+                    <p class="card-text">{{ blog.publish_date|timesince }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Sağ içerik (sağ sütun) -->
+    <div class="col-md-3 col-sm-6">
+        {% for blog in haber_tag.blog_set.all|slice:":2"|dictsortreversed:"publish_date" %}
+        <div class="card sag text-white ">
+            <img src="{{ blog.image.url }}" class="card-img" alt="...">
+            <div class="card-img-overlay">
+                <div class="custom-card-body">
+                    <h5 class="card-title"><a href="{% url 'blog_details' blog.slug %}"> {{ blog.title }} </a></h5>
+                    <p class="card-text">{{ blog.publish_date|timesince }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

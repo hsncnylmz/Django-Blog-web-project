@@ -1,0 +1,172 @@
+<!-- templates/community/question_detail.html -->
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'community/css/style.css' %}">
+{% endblock %}
+
+{% block title %} Soru Cevap {% endblock %}
+
+{% block content %}
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 column mt-4 mb-4">
+            <div class="ge-content">
+                <img src="{% static 'community/img/bannerdetail.jpg' %}" alt="sorucevap" class="rounded img-fluid">
+            </div>
+        </div>
+    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Anasayfa</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'community:question_list' %}">Soru&Cevap</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ question.title }}</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-sm-4 column col-lg-2 col-12">
+            <div class="ge-content">
+                <!-- <h2>Sol Kısım</h2> -->
+            </div>
+        </div>
+        <div class="col-sm-4 column col-lg-8 col-12">
+            <div class="ge-content">
+                <h5 class="display-6">Başlık sahibi</h5>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            {% if question.user.userprofile and question.user.userprofile.avatar %}
+                            <img src="{{ question.user.userprofile.avatar.url }}" alt="User Avatar"
+                                class="rounded-circle me-2" style="width: 40px;">
+                            {% endif %}
+                            <a class="fw-semibold text-decoration-none">{{ question.user.username }}</a>&nbsp;
+                            <span class="badge bg-success">
+                                {{ question.user.userprofile.get_role_display }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ question.title }}</h5>
+                        <p class="card-text">{{ question.content }}</p>
+
+                        {% if question.image %}
+                        <img src="{{ question.image.url }}" class="card-img-top mb-2" alt="Question Image">
+                        {% endif %}
+                    </div>
+                    <div class="card-footer text-muted">
+                        Oluşturma saati: {{ question.created_at }}
+
+                        <!-- Editleme Bağlantısı -->
+                        {% if request.user == question.user %}
+                        <a href="{% url 'community:edit_question' question_id=question.id %}"
+                            class="btn btn-warning">Soruyu Düzenle</a>
+                        {% endif %}
+
+                        <!-- Silme Formu -->
+                        {% if request.user == question.user %}
+                        <form method="post" action="{% url 'community:delete_question' question_id=question.id %}"
+                            class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Soruyu silmek istediğinizden emin misiniz?')">Soruyu
+                                Sil</button>
+                        </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+                <!-- Cevaplar Kısmı -->
+                {% for answer in question.answers.all %}
+                <div class="card mt-4 mb-4">
+                    <div class="row g-0">
+                        <div class="col-md-2 text-center">
+                            {% if answer.user.userprofile and answer.user.userprofile.avatar %}
+                            <img src="{{ answer.user.userprofile.avatar.url }}" alt="User Avatar"
+                                class="rounded-circle me-2 mt-4" style="width: 75px;">
+                            {% endif %}
+                            <p>Cevaplayan: {{ answer.user.username }} <br> <small
+                                    class="text-muted">{{answer.created_at|date:"d F H:i" }}</small></p>
+                        </div>
+
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <p>{{ answer.content }}</p>
+                                {% if answer.image %}
+                                <img src="{{ answer.image.url }}" alt="Answer Image" class="img-fluid">
+                                {% endif %}
+                            </div>
+
+                            {% if request.user == answer.user %}
+                            <form method="post" action="{% url 'community:delete_answer' answer_id=answer.id %}"
+                                class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Cevabı silmek istediğinizden emin misiniz?')">Cevabı
+                                    Sil</button>
+                            </form>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Cevap Formu -->
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <form method="post" action="{% url 'community:answer_question' question_id=question.id %}"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- Answer Content Field -->
+                            <div class="mb-3">
+                                <label for="id_content" class="form-label">
+                                    <p>Cevap Ver:</p>
+                                </label>
+                                <textarea name="content" id="id_content" class="form-control" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group me-2" role="group" aria-label="First group">
+                                        <!-- Answer Image Field -->
+                                        <label for="id_image" class="form-label"></label>
+                                        <div class="input-group">
+                                            <input type="file" name="image" id="id_image" class="form-control"
+                                                style="display: none;">
+                                            <label for="id_image" class="input-group-text" style="cursor: pointer;">
+                                                <i class="fa-regular fa-image" style="color: #63E6BE;"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group me-2" role="group" aria-label="Second group">
+                                        <!-- Submit Button -->
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa-solid fa-paper-plane"></i> Cevapla
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4 column col-lg-2 col-12">
+            <div class="ge-content">
+                <!-- <h2>Sağ Kısım</h2> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_files %}
+<script src="{% static 'community/js/scripts.js' %}"></script>
+{% endblock %}

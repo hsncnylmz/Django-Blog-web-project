@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css_files %}
+<!-- <link rel="stylesheet" href="{% static 'payment/css/style.css' %}"> -->
+{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-xl-8">
+
+            <div class="card">
+                <div class="card-body">
+                    <ol class="activity-checkout mb-0 px-4 mt-3">
+                        <li class="checkout-item">
+                            <div class="avatar checkout-icon p-1">
+                                <div class="avatar-title rounded-circle bg-primary">
+                                    <i class="bx bxs-receipt text-white font-size-20"></i>
+                                </div>
+                            </div>
+                            <div class="feed-item-list">
+                                <div>
+                                    <form method="post" action="{% url 'payment:invoice' paper_slug=paper.slug %}" class="needs-validation" novalidate>
+                                        {% csrf_token %}
+                                        <h5 class="font-size-16 mb-1">Fatura Bilgisi</h5>
+                                        <p class="text-muted mb-4">Lütfen gerekli yerleri eksiksiz tamamlayın</p>
+                                        <div class="mb-3">
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-label"
+                                                                for="{{ form.first_name.id_for_label }}">Ad</label>
+                                                            <input type="text" class="form-control"
+                                                                id="{{ form.first_name.id_for_label }}"
+                                                                name="{{ form.first_name.name }}" placeholder="Ad"
+                                                                required>
+                                                            <div class="invalid-feedback">
+                                                                {{ form.first_name.errors }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-label"
+                                                                for="{{ form.last_name.id_for_label }}">Soyad</label>
+                                                            <input type="text" class="form-control"
+                                                                id="{{ form.last_name.id_for_label }}"
+                                                                name="{{ form.last_name.name }}" placeholder="Soyad"
+                                                                required>
+                                                            <div class="invalid-feedback">
+                                                                {{ form.last_name.errors }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-label"
+                                                                for="{{ form.phone_number.id_for_label }}">Telefon
+                                                                Numarası</label>
+                                                            <input type="text" class="form-control"
+                                                                id="{{ form.phone_number.id_for_label }}"
+                                                                name="{{ form.phone_number.name }}"
+                                                                placeholder="Telefon Numarası" required>
+                                                            <div class="invalid-feedback">
+                                                                {{ form.phone_number.errors }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-label"
+                                                                for="{{ form.email.id_for_label }}">E-posta
+                                                                adresiniz</label>
+                                                            <input type="email" class="form-control"
+                                                                id="{{ form.email.id_for_label }}"
+                                                                name="{{ form.email.name }}"
+                                                                placeholder="E-posta adresiniz" required>
+                                                            <div class="invalid-feedback">
+                                                                {{ form.email.errors }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-4 mb-lg-0">
+                                                            <label class="form-label"
+                                                                for="{{ form.city.id_for_label }}">Şehir</label>
+                                                            <input type="text" class="form-control"
+                                                                id="{{ form.city.id_for_label }}"
+                                                                name="{{ form.city.name }}" placeholder="Şehir"
+                                                                required>
+                                                            <div class="invalid-feedback">
+                                                                {{ form.city.errors }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-0">
+                                                            <label class="form-label"
+                                                                for="{{ form.postal_code.id_for_label }}">Zip / Posta
+                                                                kodunuz</label>
+                                                            <input type="text" class="form-control"
+                                                                id="{{ form.postal_code.id_for_label }}"
+                                                                name="{{ form.postal_code.name }}"
+                                                                placeholder="Posta kodunuz" required>
+                                                            <div class="invalid-feedback">
+                                                                {{ form.postal_code.errors }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label 
+                                                            class="form-label"
+                                                            for="{{ form.billing_address.id_for_label }}">Açık adresiniz</label>
+                                                        <textarea class="form-control"
+                                                            id="{{ form.billing_address.id_for_label }}"
+                                                            name="{{ form.billing_address.name }}" rows="3"
+                                                            placeholder="Açık adresiniz" required></textarea>
+                                                        <div class="invalid-feedback">
+                                                            {{ form.billing_address.errors }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="checkout-item">
+                            <div class="avatar checkout-icon p-1">
+                                <div class="avatar-title rounded-circle bg-primary">
+                                    <i class="bx bxs-truck text-white font-size-20"></i>
+                                </div>
+                            </div>
+                            <div class="feed-item-list">
+                                <div>
+                                    <h5 class="font-size-16 mb-1">Sipariş Bilgisi</h5>
+                                    <p>Satın alınacak dosya bilgisi</p>
+                                    <div class="mb-3">
+                                        {% if paper.file %}
+                                        <p><i class="fa-solid fa-file-zipper fa-2xl"></i> Dosya Adı: {{ paper.file.name|cut:"paper/files/" }}</p>
+                                        <p>Dosya Boyutu: {{ paper.get_file_size }}</p>
+                                        {% else %}
+                                        <div class="mt-4 mb-4">
+                                            <a class="font-monospace fw-bold text-uppercase bg-warning">Satın alınacak dosya yok!</a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="checkout-item">
+                            <div class="avatar checkout-icon p-1">
+                                <div class="avatar-title rounded-circle bg-primary">
+                                    <i class="bx bxs-wallet-alt text-white font-size-20"></i>
+                                </div>
+                            </div>
+                            <div class="feed-item-list">
+                                <div>
+                                    <h5 class="font-size-16 mb-1">Ödeme bilgisi</h5>
+                                    <p class="text-muted mb-4">Dilediğiniz ödeme yöntemini seçebilirsiniz ödeme
+                                        işleminden sonra dökümana ve içeriklere ulaşacaksınız.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-size-14 mb-3">Ödeme yöntemi :</h5>
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-6 mb-4 mt-3">
+                                            <div data-bs-toggle="collapse">
+                                                <label>
+                                                    <input type="radio" name="{{ form.payment_method.name }}" value="eft">
+                                                    <span class="card-radio py-3 text-center text-truncate">
+                                                        <i class="fa-solid fa-building-columns fa-2xl"></i>
+                                                        EFT / HAVALE
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6 mb-4 mt-3">
+                                            <div>
+                                                <label>
+                                                    <input type="radio" name="{{ form.payment_method.name }}" value="iyzico">
+                                                    <span class="card-radio py-3 text-center text-truncate">
+                                                        <i class="fa-solid fa-credit-card fa-2xl"></i>
+                                                        IYZICO
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <p class="text-muted mt-4 ms-3">Lütfen sadece dijital içerik aldığınızı ve fiziksel bir ürün almadığınızı
+                unutmayın her türlü bilgi için bizimle iletişime geçebilirsiniz e-posta adresimiz veya soru cevap
+                kısmından başlık açarak iletişime geçerek bizimle tüm sorunlarınızı paylaşabileceğinizi unutmayın.</p>
+            <div class="row my-4">
+                <div class="col">
+                    <a href="{% url 'paper:paper_detail' slug=paper.slug %}" class="btn btn-link text-muted">
+                        <i class="fa-solid fa-arrow-left me-1"></i>Geri Dön</a>
+                </div> <!-- end col -->
+                <div class="col">
+                    <div class="text-end mt-sm-0">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-cart-shopping fa-sm me-1"></i> Ödeme Yap
+                        </button>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row-->
+        </form>
+        </div>
+        <div class="col-xl-4 mb-4">
+            <div class="card checkout-order-summary">
+                <div class="card-body">
+                    <div class="p-3 bg-light mb-3">
+                        <h5 class="font-size-16 mb-0">Sipariş Özeti<span class="float-end ms-2">#{{ paper.id }}</span>
+                        </h5>
+                    </div>
+                    <div class="product">
+                        {% if paper.cover_image %}
+                        <!-- Eğer cover_image mevcutsa göster -->
+                            <img src="{{ paper.cover_image.url }}" class="card-img-top" alt="{{ paper.title }}">
+                        {% else %}
+                            <!-- Eğer cover_image yoksa alternatif metin göster -->
+                            <p>Bu ürünün görseli bulunmamaktadır.</p>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ paper.title }}</h5>
+                            <a href="{% url 'paper:paper_detail' slug=paper.slug %}" class="btn btn-primary">Sayfayı incele</a>
+                            <hr>
+                            <div>
+                                <h5>Fiyat: {{ paper.price }} TL</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+</div>
+
+{% endblock %}
+{% block js_files %}
+<script>
+    // Bootstrap validation
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}

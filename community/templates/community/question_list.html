@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'community/css/style.css' %}">
+{% endblock %}
+
+{% block title %} Soru Cevap {% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 column mt-4 mb-4">
+            <!-- Banner Alanı -->
+            <div class="ge-content">
+                <img src="{% static 'community/img/sorucevapbanner.png' %}" alt="sorucevap" class="rounded img-fluid"
+                    style="background-color: rgb(247, 159, 27);">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 column col-lg-2 col-12">
+            <!-- Sayfanın Sol Kısmı -->
+            <div class="ge-content">
+                <!-- <h2>Sol</h2> -->
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-sm-8 column col-12">
+            <div class="ge-content">
+                <!-- Sayfanın Soru Cevap Akışı -->
+                <div class="ge-content">
+                    <h2>Soru Cevap Akışı</h2>
+                    <article class="card border-2 mb-3" style="border: 2px solid tomato; border-radius: 10px;">
+                        <header class="card-header border-0 bg-transparent">
+                            <div class="container">
+
+                                <form method="post" action="{% url 'community:question_list' %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <!-- Title Field -->
+                                    <div class="mb-3">
+                                        <label for="{{ question_form.title.id_for_label }}" class="form-label"></label>
+                                        <input type="text" name="{{ question_form.title.name }}" id="{{ question_form.title.id_for_label }}" class="form-control bg-transparent border-0" placeholder="Soru Başlığı">
+                                        
+                                    <!-- Content Field -->
+                                        <label for="{{ question_form.content.id_for_label }}" class="form-label"></label>
+                                        <textarea name="{{ question_form.content.name }}" id="{{ question_form.content.id_for_label }}" class="form-control bg-transparent border-0" placeholder="Soru İçeriği"></textarea>
+                                        
+                                    <!-- Image Field -->
+                                        <label for="{{ question_form.image.id_for_label }}" class="form-label"></label>
+                                        <input type="file" name="{{ question_form.image.name }}" id="{{ question_form.image.id_for_label }}" style="display: none;">
+                                        <label for="{{ question_form.image.id_for_label }}" class="btn" style="cursor: pointer;">
+                                            <i class="fa-regular fa-image fa-xl" style="color: #F39200;"></i>
+                                        </label>
+                                    <!-- Submit Button -->
+                                    <button type="submit" name="ask_question" class="btn btn-sm">Soru Sor</button>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </header>
+                    </article>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 column col-lg-12">
+                    <div class="ge-content">
+                        <hr>
+                        <!-- Soru Kısmı -->
+                        {% for question in questions %}
+                        <!-- Soru Alanı -->
+                        <article class="card bg-light mb-3">
+                            <header class="card-header border-0 bg-transparent d-flex align-items-center">
+                                <div class="d-flex align-items-center">
+                                    {% if question.user.userprofile and question.user.userprofile.avatar %}
+                                    <img src="{{ question.user.userprofile.avatar.url }}" alt="User Avatar" class="rounded-circle me-2"
+                                        style="width: 40px;">
+                                    {% endif %}
+                                    <a class="fw-semibold text-decoration-none">{{ question.user.username }}</a>&nbsp;
+                                    <span class="badge bg-success">
+                                        
+                                        {{ question.user.userprofile.get_role_display }}
+                                        
+                                    </span>
+                                    <span class="ms-3 small text-muted">Oluşturma saati: {{ question.created_at }}</span>
+                                </div>
+                                <div class="dropdown ms-auto">
+                                    <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Report</a></li>
+                                    </ul>
+                                </div>
+                            </header>
+                            <div class="card-body py-2 px-3">
+                                <h5 class="card-title">{{ question.title }}</h5>
+                                <p class="card-text">{{ question.content }}</p>
+                                {% if question.image %}
+                                <img src="{{ question.image.url }}" class="card-img-top mb-2" alt="Question Image">
+                                {% endif %}
+                            </div>
+                            <footer class="card-footer bg-white border-0 py-1 px-3 d-flex">
+                                <button type="button" class="btn btn-link btn-sm text-decoration-none ps-0">
+                                    <i class="fas fa-check-to-slot"></i>Yanıtlar: ({{ question.answers.count }})
+                                </button>
+                                <form method="post" action="{% url 'community:answer_question' question_id=question.id %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-link btn-sm text-decoration-none">
+                                        <i class="fas fa-reply"></i>Cevapla</button>
+                                </form>
+                                <a href="{% url 'community:question_detail' question_id=question.id %}" class="btn btn-light btn-sm border rounded-4 ms-2">
+                                    <i class="fas fa-circle-check"></i> Soru Detayları
+                                </a>
+                            </footer>
+                        </article>
+                        <!-- Soru Alanı Bitiş -->
+                        <aside>
+                            <!-- Yanıt Alanı -->
+                            <section id="comment-replies" class="ms-5 ms-md-5">
+                                {% for answer in question.answers.all|slice:":2" %}
+                                <article class="card bg-light mb-3">
+                                    <header class="card-header border-0 bg-transparent">
+                                        {% if answer.user.userprofile and answer.user.userprofile.avatar %}
+                                        <img src="{{ answer.user.userprofile.avatar.url }}" alt="User Avatar" class="rounded-circle me-2" style="width: 40px;">
+                                        {% endif %}
+                                        <a class="fw-semibold text-decoration-none">{{ answer.user.username }}</a>
+                                        <span class="badge bg-success">
+                                            {{ answer.user.userprofile.get_role_display }}
+                                        </span>
+                                        
+                                    </header>
+                                    <div class="card-body py-2 px-3">
+                                        <p>{{ answer.content }}</p>
+                                        {% if answer.image %}
+                                        <img src="{{ answer.image.url }}" alt="Answer Image" class="img-fluid" style="max-width: 300px;">
+                                        {% endif %}
+                                    </div>
+                                    <footer class="card-footer bg-white border-0 py-1 px-3">
+                                        <span class="ms-3 small text-muted">Yanıt tarihi: {{ answer.created_at }}</span>
+                                    </footer>
+                                </article>
+                                {% endfor %}
+                                {% if question.answers.count > 2 %}
+                                <a href="{% url 'community:question_detail' question_id=question.id %}"
+                                    class="btn btn btn-outline-secondary btn-sm mb-4" type="button" data-toggle="collapse"
+                                    data-target="#allAnswers" aria-expanded="false" aria-controls="allAnswers">
+                                    Tüm Cevapları Görüntüle
+                                </a>
+                                <div class="collapse" id="allAnswers">
+                                    {% for answer in question.answers.all|slice:"2:" %}
+                                    <article class="card bg-light mb-3">
+                                        <header class="card-header border-0 bg-transparent">
+                                            <img src="{{ answer.user.userprofile.avatar.url }}" alt="User Avatar"
+                                                class="rounded-circle me-2" style="width: 40px;">
+                                            <a class="fw-semibold text-decoration-none">{{ answer.user.username }}</a>
+                                            <span class="ms-3 small text-muted">{{ answer.created_at }}</span>
+                                        </header>
+                                        <div class="card-body py-2 px-3">
+                                            <p>{{ answer.content }}</p>
+                                            {% if answer.image %}
+                                            <img src="{{ answer.image.url }}" alt="Answer Image" class="img-fluid"
+                                                style="max-width: 400px;">
+                                            {% endif %}
+                                        </div>
+                                        <footer class="card-footer bg-white border-0 py-1 px-3">
+                                            <button type="button" class="btn btn-link btn-sm text-decoration-none ps-0">
+                                                <i class="bi bi-hand-thumbs-up me-1"></i>(3)
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-sm text-decoration-none">
+                                                <i class="fas fa-reply"></i> Cevapla
+                                            </button>
+                                            <button type="button" class="btn btn-light btn-sm border rounded-4 ms-2">
+                                                <i class="bi bi-check-circle-fill text-secondary"></i> En İyi Yanıt
+                                            </button>
+                                        </footer>
+                                    </article>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </section>
+                            <!-- Yanıt Alanı Bitiş -->
+                        </aside>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 column col-lg-2 col-12">
+            <div class="ge-content">
+                <!-- Sayfanın Sağ Kısmı -->
+                <!-- <h2>Sağ Kısım</h2> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_files %}
+<script src="{% static 'community/js/scripts.js' %}"></script>
+{% endblock %}

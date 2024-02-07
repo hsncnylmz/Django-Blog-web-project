@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'account/css/style.css' %}">
+{% endblock %}
+
+{% block title %} Kayıt Sayfası {% endblock %}
+
+{% block content %}
+
+
+<!-- Giriş Sayfası İçerik alanı -->
+<div class="container">
+
+    <div class="row mt-4 mb-4">
+        <div class="col-3 d-none d-md-block"></div>
+
+        <div class="col-lg-6 col-md-12">
+            <h1>Kayıt Sayfası</h1>
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                {% if error %}
+                <div class="alert alert-warning" role="alert">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <div class="row mb-3 d-flex">
+                    <div class="col-6">
+                            <label for="username" class="form-label">Kullanıcı Adı</label>
+                            <input type="text" class="form-control" name="username" value="{{ username }}" placeholder="Kullanıcı Adı">
+                        </div>
+                    <div class="col-6">
+                            <label for="email" class="form-label">E-Posta</label>
+                            <input type="email" class="form-control" name="email" value="{{ email }}" placeholder="E-Posta">
+
+                    </div>
+                </div>
+
+                <div class="row mb-3 d-flex">
+                    <div class="col-6">
+                        <label for="firstname" class="form-label">Ad</label>
+                        <input type="text" class="form-control" name="firstname" value="{{ firstname }}" placeholder="Ad">
+                    </div>
+                    <div class="col-6">
+                        <label for="lastname" class="form-label">Soyad</label>
+                        <input type="text" class="form-control" name="lastname" value="{{ lastname }}" placeholder="Soyad">
+                    </div>
+                </div>
+
+                <div class="row mb-3 d-flex">
+                    <div class="col-6">
+                        <label for="password" class="form-label">Şifre</label>
+                        <input type="password" class="form-control" name="password" placeholder="Şifre">
+                    </div>
+                    <div class="col-6">
+                        <label for="repassword" class="form-label">Şifrenizi tekrar girin</label>
+                        <input type="password" class="form-control" name="repassword" placeholder="Şifrenizi tekrar girin">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Kayıt Oluştur</button>
+            </form>
+            <hr>
+            <a class="btn btn-outline" href="{% provider_login_url 'google' method='oauth2' %}"><p><i class="fa-brands fa-google fa-xl" style="color: #0179d5;"></i> Google ile Üye Ol</p></a>
+        </div>
+
+        <div class="col-3 d-none d-md-block"></div>
+    </div>
+</div>
+
+{%endblock%}

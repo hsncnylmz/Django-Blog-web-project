@@ -1,0 +1,206 @@
+<!-- account/edit_profile.html -->
+
+{% extends "base.html" %}
+{% load static %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'account/css/style.css' %}">
+{% endblock %}
+
+{% block title %} Edit Profile {% endblock %}
+
+{% block content %}
+<div class="container-xl px-4 mt-4">
+    <h2>Profil Düzenle</h2>
+    <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' slug=user_profile.slug %}">
+        {% csrf_token %}
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="col-xl-4">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Profil fotoğrafı ve Banner</div>
+                    <div class="card-body text-center">
+                        <div class="ge-content">
+                            <img class="rounded-circle" id="avatar-preview" src="#" alt="Avatar önizleme"
+                                style="margin-left: auto; margin-right: auto; display:none; max-width: 200px; height: 150px; max-height: 200px; object-fit:cover; object-position: center; margin-top: 10px;">
+                            <div class="mb-3">
+                                <label for="id_avatar" class="form-label">{{ form.fields.avatar.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-regular fa-image fa-lg"></i>
+                                        <input class="form-control" style="border: none;" type="file" id="id_avatar"
+                                            name="{{ form.avatar.name }}"
+                                            onchange="showFile('avatar', 'avatar-preview')">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ge-content">
+                            <img class="" id="cover-photo-preview" src="#" alt="Kapak fotoğrafı önizleme"
+                                style="display:none; width: 100%; height: auto; max-height: 100px; object-fit:cover; object-position: center; margin-top: 10px;">
+                        </div>
+                        <!-- Kapak Fotoğrafı -->
+                        <div class="mb-3">
+                            <label for="id_cover_photo" class="form-label">{{form.fields.cover_photo.label}}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-panorama fa-lg"></i>
+                                    <input class="form-control" style="border: none;" type="file" id="id_cover_photo"
+                                        name="{{ form.cover_photo.name }}"
+                                        onchange="showFile('cover_photo', 'cover-photo-preview')">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Kullanıcı Profili</div>
+                    <div class="card-body">
+                        <form>
+                            <!-- Biyografi -->
+                            <div class="mb-3"><i class="fa-solid fa-user-pen fa-lg"></i>
+                                <label for="id_bio" class="form-label">{{ form.bio.label_tag }}</label>
+                                <textarea id="id_bio" name="{{ form.bio.name }}" class="form-control"
+                                    rows="4">{{ form.bio.value }}</textarea>
+                            </div>
+                            <!-- İlgi Alanları -->
+                            <div class="mb-3">
+                                <label for="id_interests" class="form-label">{{ form.fields.interests.label }}:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-heart fa-lg"></i>
+                                    </span>
+                                    <textarea class="form-control" id="id_interests" name="{{ form.interests.name }}"
+                                        rows="4">{{ form.interests.value }}</textarea>
+                                </div>
+                            </div>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <!-- Eğitim -->
+                                    <div class="mb-3">
+                                        <label for="id_education" class="form-label">{{ form.fields.education.label }}:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa-solid fa-user-graduate fa-lg"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="id_education" name="education" placeholder="{{ form.fields.education.label }}" aria-label="{{ form.fields.education.label }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- İş -->
+                                    <div class="mb-3">
+                                        <label for="id_job" class="form-label">{{ form.fields.job.label }}:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa-solid fa-briefcase fa-lg"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="id_job" name="job" placeholder="{{ form.fields.job.label }}" aria-label="{{ form.fields.job.label }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <!-- github -->
+                                    <div class="mb-3">
+                                        <label for="id_github" class="form-label">{{ form.fields.github.label }}:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa-brands fa-github fa-lg"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="id_github" name="github" placeholder="{{ form.fields.github.label }}" aria-label="{{ form.fields.github.label }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Konum -->
+                                    <div class="mb-3">
+                                        <label for="id_location" class="form-label">{{ form.fields.location.label }}:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa-solid fa-location-dot fa-lg"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="id_location" name="location" placeholder="{{ form.fields.location.label }}" aria-label="{{ form.fields.location.label }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <!-- Twitter -->
+                                    <div class="mb-3">
+                                        <label for="id_twitter" class="form-label">{{ form.fields.twitter.label }}:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa-brands fa-x-twitter fa-lg"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="id_twitter" name="twitter" placeholder="{{ form.fields.twitter.label }}" aria-label="{{ form.fields.twitter.label }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Doğum Tarihi -->
+                                    <div class="mb-3">
+                                        <label for="id_birth_date" class="form-label">{{ form.fields.birth_date.label }}:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa-solid fa-calendar-days fa-lg"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="id_birth_date" name="birth_date" placeholder="{{ form.fields.birth_date.label }}" aria-label="{{ form.fields.birth_date.label }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <!-- linkedin -->
+                                    <div class="mb-3">
+                                        <label for="id_linkedin" class="form-label">{{ form.fields.linkedin.label }}:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa-brands fa-linkedin fa-lg"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="id_linkedin" name="linkedin" placeholder="{{ form.fields.linkedin.label }}" aria-label="{{ form.fields.linkedin.label }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Instagram -->
+                                    <div class="mb-3">
+                                        <label for="id_instagram" class="form-label">{{ form.fields.instagram.label }}:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa-brands fa-square-instagram fa-lg"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="id_instagram" name="instagram" placeholder="{{ form.fields.instagram.label }}" aria-label="{{ form.fields.instagram.label }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <!-- Website -->
+                                <label for="id_website" class="form-label">{{ form.fields.website.label }}:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-globe fa-lg"></i>
+                                    </span>
+                                    <input class="form-control" type="text" id="id_website" name="website" placeholder="{{ form.fields.website.label }}" aria-label="{{ form.fields.website.label }}">
+                                </div>
+                            </div>
+                            
+                            <!-- Değişiklikleri Kaydet Butonu -->
+                            <button class="btn btn-primary mt-3 mb-3" type="submit">Değişiklikleri Kaydet</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+{% endblock %}
+{% block js_files %}
+<script src="{% static 'account/js/scripts.js' %}"></script>
+{% endblock %}

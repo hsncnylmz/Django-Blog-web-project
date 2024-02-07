@@ -1,0 +1,26 @@
+
+{% load static %}
+<div class="card mb-3" style="max-width: 100%;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ blog.image.url }}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"> <a href="{% url 'blog_details' blog.slug %}"> {{ blog.title }} </a></h5>
+                <p class="card-text"> {{ blog.description | safe | slice:"0:160" }} <b>Devamı</b></p>
+                <p class="card-text"><small class="text-body">{{ blog.publish_date|date:"j F Y" }}</small>
+
+                    {% for category in blog.categories.all %}
+                    <span class="badge bg-info">{{ category.name|title }}</span>
+                    {% endfor %}
+
+                    {% for tag in blog.tags.all %}
+                    <span class="badge bg-success">#{{ tag.name }}</span>
+                    {% endfor %}
+
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+/* arama kutusu pozisyon ayarı */
+#searchInput {
+    width: 15%;
+    box-sizing: border-box;
+    position: fixed;
+    /* top: 10%; */
+    left: 58%;
+
+    z-index: 999;
+}
+
+/* Özel Button Stili */
+.nav-item .btn.btn-outline-info.btn-sm {
+    color: #636FB3;
+    border-color: #636FB3;
+    border-radius: 15px 15px 15px 15px;
+    margin-right: 1rem;
+}
+
+/* Navbar Link Rengi */
+.navbar-nav .nav-item a {
+    color: #F39200; /* İstediğiniz renk */
+    text-decoration: none; /* Altı çizgiyi kaldırmak için */
+}
+
+/* Navbar Link Hover Rengi */
+.navbar-nav .nav-item a:hover {
+    color: #636FB3; /* Hover rengi */
+    text-decoration: none; /* Hover durumunda altı çizgi eklemek istiyorsanız */
+}
+
+.nav-item .btn.btn-outline-info.btn-sm:hover {
+    color: #ffffff; /* Varsayılan hover rengini belirleyin */
+    background-color: #B4DBCF;
+    border-color: #B4DBCF;
+}
+
+/* Focus ve Active Durumları */
+.nav-item .btn.btn-outline-info.btn-sm:focus,
+.nav-item .btn.btn-outline-info.btn-sm:active,
+.nav-item .btn.btn-outline-info.btn-sm.active,
+.nav-item .btn.btn-outline-info.btn-sm.dropdown-toggle.show {
+    color: #ffffff; /* Varsayılan active/focus rengini belirleyin */
+    background-color: #636FB3;
+    border-color: #636FB3;
+}
+
+/* Devre dışı Durumu */
+.nav-item .btn.btn-outline-info.btn-sm:disabled,
+.nav-item .btn.btn-outline-info.btn-sm.disabled {
+    color: #636FB3;
+    background-color: transparent;
+}
+
+.nav-item {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 400;
+    /* Medium */
+    font-style: normal;
+    font-size: large;
+}

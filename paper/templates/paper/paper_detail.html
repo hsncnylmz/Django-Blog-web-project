@@ -1,0 +1,134 @@
+<!-- paper_detail sayfası -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'paper/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="paper-single">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-1 d-none d-md-block">
+            </div>
+
+            <div class="col-lg-8">
+                <article class="article">
+                    <div class="article-img">
+                        {% if paper.cover_image %}
+                            <img src="{{ paper.cover_image.url }}" class="img-fluid mb-4" alt="{{ paper.title }}">
+                        {% else %}
+                            <p>Görsel Yüklenmemiş!</p>
+                        {% endif %}
+                    </div>
+                    <div class="article-title">
+                        <div class="reaksion d-flex me-auto justify-content-between align-items-center">
+                            <p>Görüntüleme: {{ paper.views_count }} <i class="fa-regular fa-eye fa-lg"></i></p>
+                            <div class="d-flex">
+                                <!-- Like Button -->
+                                <form id="like-form" class="like-form" method="post" action="{% url 'paper:like' paper.slug %}">
+                                    {% csrf_token %}
+                                    <button class="btn like-btn d-flex align-items-center justify-content-between" type="submit">
+                                        <p><span class="like-count">{{ paper.likes }}</span> &nbsp;</p>
+                                        <p><i class="fa-regular fa-thumbs-up fa-xl" style="color: Dodgerblue;"></i></p>
+                                    </button>
+                                </form>
+                                <!-- Dislike Button -->
+                                <form id="dislike-form" class="dislike-form" method="post" action="{% url 'paper:dislike' paper.slug %}">
+                                    {% csrf_token %}
+                                    <button class="btn dislike-btn d-flex align-items-center justify-content-between" type="submit">
+                                        <p><span class="dislike-count">{{ paper.dislikes }}</span> &nbsp;</p>
+                                        <p><i class="fa-regular fa-thumbs-down fa-xl" style="color: tomato;"></i></p>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <h2>{{ paper.title }}</h2>
+                        <div class="media">
+                            <div class="avatar">
+                                <img src="{{ paper.author.avatar.url }}" class="rounded-circle" width="65px">
+                            </div>
+                            <div class="media-body">
+                                <label>{{ paper.author }}</label>
+                                <p class="text-muted"><small>Paylaşma Tarihi {{ paper.publish_date|date }}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        {# Ücretsiz içerik ise sadece belirli bilgileri göster #}
+                        {% if paper.paper_type == 'free' or user.is_authenticated and user.role == 'premium' or user.is_authenticated and user.role == 'admin' or user.is_authenticated and paper.author == user_profile %}
+                        <p>{{ paper.description }}</p>
+                            <div class="mb-4">
+                                {% autoescape off %}
+                                    {{ paper.content|safe }}
+                                {% endautoescape %}
+                            </div>
+                            {% if paper.code_content %}
+                                <h3>Code Content</h3>
+                                <div class="mb-4">
+                                    {% autoescape off %}
+                                        {{ paper.code_content|safe }}
+                                    {% endautoescape %}
+                                </div>
+                            {% endif %}
+            
+                            {% if paper.file %}
+                                <p>Dosya Adı: {{ paper.file.name|cut:"paper/files/" }}</p>
+                                <p>Dosya Boyutu: {{ paper.get_file_size }}</p>
+                                <a href="{{ paper.file.url }}" download class="btn btn-success" target="_blank"><i class="fa-solid fa-file-invoice fa-xl"></i> Dosyayı İndir</a>
+                            {% else %}
+                                <div class="mt-4 mb-4">
+                                    <a class="font-monospace fw-bold text-uppercase bg-warning">Hiçbir dosya eklenmedi.</a>
+                                </div>
+                            {% endif %}
+            
+                            {% if paper.gallery.all %}
+                                <h3>Gallery</h3>
+                                <div class="row">
+                                    {% for image in paper.gallery.all %}
+                                        <div class="col-md-3 mb-3">
+                                            <img src="{{ image.image.url }}" class="img-fluid" alt="Gallery Image">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                        {% else %}
+                            {# Ücretli içerik ise sadece belirli bilgileri göster #}
+                            <p>{{ paper.description }}</p>
+                            <p>Ücretli içeriği görüntülemek için ödeme veya giriş yapmalısınız.</p>
+                            <p>Fiyat: {{ paper.price }}₺</p>
+                            <div class="d-flex justify-content-start align-items-center">
+                                <a href="{% url 'login' %}" class="btn btn-primary me-1">Giriş Yap</a>
+                                <span class="mx-2">Veya</span>
+                                <form method="post" action="{% url 'payment:invoice' paper.slug %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-success" type="submit">Ödeme Yap</button>
+                                </form>
+                            </div>
+                            
+                        {% endif %}
+                    </div>
+                        <div class="nav tag-cloud mt-4 mb-4">
+                            {% for tag in paper.tags.all %}
+                                <a href="#" style="color:cornflowerblue;">#{{ tag.name }} &nbsp;</a>
+                            {% endfor %}
+                        </div>
+                </article>
+            </div>
+            <div class="col-lg-3">
+                {% include 'blog/partials/_latest_posts.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js_files %}
+<script>
+    var paperSlug = "{{ paper.slug }}";
+</script>
+<script src="{% static 'paper/js/script.js' %}"></script>
+{% endblock %}

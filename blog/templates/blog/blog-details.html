@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+{% endblock %}
+
+{% block title %} Blogs Details {% endblock %}
+
+{% block content %}
+
+<div class="container" data-blog-slug="{{ blog.slug }}">
+    <div class="row">
+        <div class="col-lg-1 col-md-12 d-none d-md-block" style="margin-top: 11rem;">
+            <!-- Reaksiyon butonları ve sayıları -->
+            <div id="reactions">
+                <div class="row text-center d-flex">
+                    <div class="col">
+                        <button class="btn btn-outline reaction-btn" data-reaction-type="like">
+                            <h5><i class="fa-solid fa-face-grin-hearts fa-2xl" style="color: #f5a700;"></i></h5>
+                            <span id="count-like">{{ reaction_counts.like_count }}</span>                        
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline reaction-btn" data-reaction-type="laugh">
+                            <h5><i class="fa-solid fa-face-grin-tears fa-2xl" style="color: #f5a700;"></i></h5>
+                            <span id="count-laugh">{{ reaction_counts.laugh_count }}</span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline reaction-btn" data-reaction-type="surprise">
+                            <h5><i class="fa-solid fa-face-grin-stars fa-2xl" style="color: #f5a700;"></i></h5>
+                            <span id="count-surprise">{{ reaction_counts.surprise_count }}</span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline reaction-btn" data-reaction-type="dislike">
+                            <h5><i class="fa-solid fa-face-angry fa-2xl" style="color: #f5a700;"></i></h5>
+                            <span id="count-dislike">{{ reaction_counts.dislike_count }}</span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline reaction-btn" data-reaction-type="sad">
+                            <h5><i class="fa-solid fa-face-flushed fa-2xl" style="color: #f5a700;"></i></h5>
+                            <span id="count-sad">{{ reaction_counts.sad_count }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 ms-md-auto">
+            <div class="title mt-4 mb-3">
+                <h1 class="card-title">{{ blog.title }}</h1>
+            </div>
+            <div class="author d-flex align-items-center justify-content-between">
+                <div class="author-image d-flex align-items-center mb-3">
+                    {% if blog.author.avatar %}
+                    <img src="{{ blog.author.avatar.url }}" class="rounded-circle" width="65px"
+                        alt="{{ blog.author.user.get_full_name }} Profil Fotoğrafı">
+                    {% else %}
+                    <p>Profil Fotoğrafı Yok</p>
+                    {% endif %}
+                    <div class="user ms-3">
+                        <p class="m-0">{{ blog.author.user.get_full_name }}</p>
+                        <p class="m-0">{{ blog.author.user.userprofile.get_role_display }}</p>
+                    </div>
+                </div>
+                <!-- Sosyal medya paylaşım linkleri -->
+                <div class="share-buttons">
+                    <a class="btn btn-sm fa-brands fa-facebook-f fa-xl" 
+                        style="color: #005eff;" 
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+                        target="_blank">
+                    </a>
+                    <a class="btn btn-sm fa-brands fa-x-twitter fa-xl" 
+                        href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" 
+                        target="_blank">
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}"
+                        target="_blank" 
+                        class="btn btn-sm fa-brands fa-linkedin-in fa-xl" 
+                        style="color: #0045bd;">
+                    </a>
+                    <a href="whatsapp://send?text=Bu blog gönderisine göz atın: {{ blog.image.url }} {{ blog.title }} - {{ request.build_absolute_uri }}"
+                        target="_blank" 
+                        class="btn btn-sm fa-brands fa-whatsapp fa-xl" 
+                        style="color: #00a876;">
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="image">
+                        <img src="{{ blog.image.url }}" class="img-fluid rounded" style="width: 100%;" alt="...">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 p-2 d-flex justify-content-between">
+                    <div class="text-wrap">
+                        <p><i class="fa-solid fa-pen fa-lg" style="color: Mediumslateblue;"></i>
+                            {{ blog.publish_date|timesince }}</p>
+                    </div>
+                    <div class="text-wrap">
+                        <p><i class="fa-regular fa-eye fa-lg" style="color: Mediumslateblue;"></i>
+                            {{ blog.views_count }}</p>
+                    </div>
+                    <div class="text-wrap">
+                        <p><i class="fa-regular fa-clock fa-lg" style="color: Mediumslateblue;"></i>
+                            {{ blog.reading_time }} dk okuma</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-none d-md-block">
+                        &nbsp;
+                </div>
+
+                <div class="col-lg-3 col-md-3 d-none d-md-flex justify-content-start flex-row-reverse">
+                        <!-- Dislike Button -->
+                        <form id="dislike-form" class="dislike-form" method="post" action="{% url 'dislike' blog.slug %}">
+                            {% csrf_token %}
+                            <button class="btn dislike-btn d-flex align-items-center justify-content-evenly" type="submit">
+                                <p><span class="dislike-count">{{ blog.dislikes }}</span> &nbsp;</p>
+                                <p><i class="fa-regular fa-thumbs-down fa-xl" style="color: tomato;"></i></p>
+                            </button>
+                        </form>
+                        <!-- Like Button -->
+                        <form id="like-form" class="like-form" method="post" action="{% url 'like' blog.slug %}">
+                            {% csrf_token %}
+                            <button class="btn like-btn d-flex align-items-center" type="submit">
+                                <p><span class="like-count">{{ blog.likes }}</span> &nbsp;</p>
+                                <p><i class="fa-regular fa-thumbs-up fa-xl" style="color: Dodgerblue;"></i></p>
+                            </button>
+                        </form>
+                </div>
+            </div>
+
+            <div class="description mt-1">
+                <h5 class="card-title"> {{ blog.description | safe }} </h5>
+            </div>
+
+            <div class="post">
+                <p class="card-text">{{ blog.content|safe }}</p>
+            </div>
+
+                <!-- Mobile Reaksiyon butonları ve sayıları -->
+            <div class="col-lg-12 d-lg-none">
+                <hr>
+                <div id="reactions">
+                    <div class="row text-center d-flex">
+                        <div class="col">
+                            <button class="btn btn-sm btn-outline reaction-btn" data-reaction-type="like">
+                                <h6><i class="fa-solid fa-face-grin-hearts fa-2xl" style="color: #f5a700;"></i></h6>
+                                <span id="count-like">{{ reaction_counts.like_count }}</span>                        
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-sm btn-outline reaction-btn" data-reaction-type="laugh">
+                                <h6><i class="fa-solid fa-face-grin-tears fa-2xl" style="color: #f5a700;"></i></h6>
+                                <span id="count-laugh">{{ reaction_counts.laugh_count }}</span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-sm btn-outline reaction-btn" data-reaction-type="surprise">
+                                <h6><i class="fa-solid fa-face-grin-stars fa-2xl" style="color: #f5a700;"></i></h6>
+                                <span id="count-surprise">{{ reaction_counts.surprise_count }}</span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-sm btn-outline reaction-btn" data-reaction-type="dislike">
+                                <h6><i class="fa-solid fa-face-angry fa-2xl" style="color: #f5a700;"></i></h6>
+                                <span id="count-dislike">{{ reaction_counts.dislike_count }}</span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-sm btn-outline reaction-btn" data-reaction-type="sad">
+                                <h6><i class="fa-solid fa-face-flushed fa-2xl" style="color: #f5a700;"></i></h6>
+                                <span id="count-sad">{{ reaction_counts.sad_count }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Reaksiyon mobile görünüm bitiş -->
+
+            <!-- Author info START -->
+            <div class="d-flex p-2 p-md-4 my-3 bg-custom bg-opacity-10 rounded">
+                <!-- Avatar -->
+                <div class="avatar avatar-xxl me-2 me-md-4">
+                    <img src="{% if blog.author.avatar %}{{ blog.author.avatar.url }}{% else %}{% static 'path/to/default/avatar.png' %}{% endif %}"
+                        class="rounded-circle" width="95px"
+                        alt="{% if blog.author.avatar %}{{ blog.author.user.get_full_name }} Profil Fotoğrafı{% else %}Profil Fotoğrafı Yoktur{% endif %}">
+
+                </div>
+                <!-- Info -->
+                <div>
+                    <div class="d-flex align-items-center justify-content-between text-start">
+                        <div>
+                            <h4 class="m-0">{{ blog.author.user.get_full_name }}</h4>
+                            <small>{{blog.author.job}}</small>
+                        </div>
+                        <div>
+                            <a href="#" class="btn btn-xs btn-primary-soft me-auto">Profili Gör</a>
+                        </div>
+                    </div>
+                    <p class="my-2">{{ blog.author.bio }}</p>
+                    <!-- Social icons -->
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link ps-0 pe-2 fs-5" href="#"><i class="fab fa-facebook-square"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-2 fs-5" href="#"><i class="fab fa-twitter-square"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-2 fs-5" href="#"><i class="fab fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Author info END -->
+
+            <!-- Yorumları gösterme -->
+            {% for comment in comments %}
+
+            <div class="rounded-3 border border-info p-2 m-3 ">
+                {% if comment.user_profile %}
+
+                <div class="comment d-flex align-items-center">
+                    <img src="{{ comment.user_profile.avatar.url }}"
+                        alt="{{ comment.user_profile.user.username }}'s profile photo" class="rounded-circle"
+                        style="width: 45px; margin-right: 0.5rem;">
+                    <p>{{ comment.user_profile.user.username }}</p>
+                </div>
+
+                {% elif comment.anonymous_user_photo %}
+                <div class="comment d-flex align-items-center">
+                    <img src="{{ comment.anonymous_user_photo.url }}" alt="Anonymous User's profile photo"
+                        class="rounded-circle" style="width: 45px; margin-right: 0.5rem;">
+                    <p>{{ comment.name }}<br>({{ comment.email }})</p>
+                </div>
+                {% endif %}
+
+                <p>{{ comment.content }}</p>
+                <p><small><cite title="Source Title">{{ comment.creation_date|naturaltime }}</cite></small></p>
+            </div>
+            {% endfor %}
+
+            <!-- Yorum yapma formu -->
+            <form method="post" action="{% url 'blog_details' slug=blog.slug %}">
+                {% csrf_token %}
+
+                {% if request.user.is_authenticated %}
+                <!-- Kullanıcı giriş yapmışsa sadece content formu görüntülenir -->
+                <div class="form-floating">
+                    <textarea class="form-control" name="content" id="comment_form.content"
+                        style="height: 100px"></textarea>
+                    <label for="comment_form.content">Yorum Yap</label>
+                </div>
+                {% else %}
+                <!-- Kullanıcı giriş yapmamışsa form alanları gözükecek -->
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <input for="comment_form.name" name="name" id="comment_form.name" class="form-control"
+                            type="text" placeholder="Geçici Kullanıcı adı" aria-label="default input example">
+                    </div>
+                    <div class="col-6">
+                        <input for="comment_form.email" name="email" type="email" class="form-control"
+                            id="comment_form.email" placeholder="e-posta adresiniz">
+                    </div>
+                </div>
+
+                <!-- Hata mesajları -->
+                {% for field, error in comment_form.errors.items %}
+                <div class="alert alert-danger" role="alert">
+                    {{ field }}: {{ error }}
+                </div>
+                {% endfor %}
+                <div class="form-floating">
+                    <textarea class="form-control" name="content" id="comment_form.content"
+                        style="height: 100px"></textarea>
+                    <label for="comment_form.content">Yorum Yap</label>
+                </div>
+                {% endif %}
+
+                <button class="btn btn-primary mt-2 mb-4" type="submit">Gönder</button>
+                <!-- Hata mesajları -->
+                {% for field, errors in comment_form.errors.items %}
+                {% for error in errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ field }}: {{ error }}
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </form>
+
+        </div>
+        <div class="col d-md-block">
+            {% include "blog/partials/_tags.html" %}
+            <div class="headinglist" id="headings-list">
+                <!-- Başlıklar buraya eklenecek -->
+            </div>
+            <div class="widget mt-4 mb-4">
+                {% include 'blog/partials/_latest_posts.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+{% block js_files %}
+<script src="{% static 'blog/js/reaction.js' %}"></script>
+<script src="{% static 'blog/js/blog_headings.js' %}"></script>
+<script src="{% static 'blog/js/script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,83 @@
+/* Kapak Fotoğrafı Stili */
+.card-body img {
+    width: 100%;
+    height: auto; /* Yüksekliği otomatik olarak ayarlar, oranları korur */
+    border-radius: 0.5rem; /* Dilerseniz kenar yuvarlatma miktarını ayarlayabilirsiniz */
+    object-fit: cover; /* Resmi kapak alanına sığacak şekilde ayarlar */
+    object-position: center; /* Resmi ortalar */
+    max-height: 140px; /* Maksimum yükseklik belirleyebilirsiniz */
+    /* Ek stil ayarlamalarını buraya ekleyebilirsiniz */
+}
+
+/* Kapak Fotoğrafı Stili */
+.card img {
+    width: 100%;
+    height: auto; /* Yüksekliği otomatik olarak ayarlar, oranları korur */
+    border-radius: 0.5rem; /* Dilerseniz kenar yuvarlatma miktarını ayarlayabilirsiniz */
+    object-fit: cover; /* Resmi kapak alanına sığacak şekilde ayarlar */
+    object-position: center; /* Resmi ortalar */
+    max-height: 140px; /* Maksimum yükseklik belirleyebilirsiniz */
+    /* Ek stil ayarlamalarını buraya ekleyebilirsiniz */
+}
+
+button {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 400;
+    /* Medium */
+    font-style: normal;
+    font-size: large;
+}
+
+span {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 400;
+    /* Medium */
+    font-style: normal;
+    font-size: large;
+}
+
+a {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 400;
+    /* Medium */
+    font-style: normal;
+    font-size: large;
+}
+
+p {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 400;
+    /* Medium */
+    font-style: normal;
+    font-size: large;
+}
+
+h5 {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 700;
+    /* Medium */
+    font-style: normal;
+    font-size: x-large;
+}
+
+h3 {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 500;
+    /* Medium */
+    font-style: normal;
+}
+
+h2 {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 600;
+    /* Medium */
+    font-style: normal;
+}
+
+h1 {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 600;
+    /* Medium */
+    font-style: normal;
+}
+

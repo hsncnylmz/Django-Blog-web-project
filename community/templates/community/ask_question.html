@@ -1,0 +1,129 @@
+<!-- templates/community/ask_question.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'community/css/style.css' %}">
+{% endblock %}
+{% block title %}Soru Sor{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 column">
+            <div class="ge-content" style="margin-top: 30px; margin-bottom: 30px">
+                <h3>
+                    "Soru Köşesi: Zihin Labirentinde Birlikte Kaybolalım!"
+                </h3>
+                <p class="fs-6 lh-sm">
+                    &nbsp;&nbsp;&nbsp;Merhaba Değerli Okurlar,
+                    <br><br>
+                    &nbsp;&nbsp;&nbsp;Blogumuzun yeni köşesine hoş geldiniz! "Soru Köşesi"nde birlikte keşfe çıkacağız,
+                    düşüncelerimizi
+                    paylaşacak ve birbirimize ilham vereceğiz. Bu köşede, merak ettiğiniz her şeyi sorabileceksiniz -
+                    teknolojiden sanata, günlük yaşamdan kişisel gelişime kadar her konuda.
+                    <br><br>
+                    &nbsp;&nbsp;&nbsp;Sorularınızın sınırlarını zorlamaktan çekinmeyin. Unutmayın, her soru bir öğrenme
+                    yolculuğunun
+                    başlangıcıdır. Sadece bilgi almakla kalmayacak, aynı zamanda birlikte düşünmek ve yeni bakış açıları
+                    kazanmak için bu köşede buluşacağız.
+                    <br><br>
+                    &nbsp;&nbsp;&nbsp;Haydi, merak ettiklerinizi, sormak istediklerinizi paylaşın! Blogumuz, sizinle
+                    daha da zenginleşecek
+                    ve bu köşe, birbirimize sormaktan çekinmediğimiz sorularla dolup taşacak. Unutmayın, burası sadece
+                    sizin değil, hepimizin.
+                    <br><br>
+                    &nbsp;&nbsp;&nbsp;Sorularınızı bekliyoruz!
+                    <br><br>
+                    &nbsp;&nbsp;&nbsp;Sevgiyle,
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-sm-8 column col-12">
+
+            <div class="card rounded border border-2 border-info">
+                <div class="card-body">
+                    <form method="post" action="{% url 'community:ask_question' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    
+                        <!-- Title Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label"><h5>Soru Başlığı</h5></label>
+                            <input class="form-control" type="text" id="{{ form.title.id_for_label }}" name="{{ form.title.name }}" value="{{ form.title.value }}" placeholder="Soru Başlığı" aria-label="Soru Başlığı">
+                        </div>
+                    
+                        <!-- Content Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.content.id_for_label }}" class="form-label">Soru İçeriği</label>
+                            <textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.name }}" rows="3" placeholder="Soru İçeriği" aria-label="Soru İçeriği">{{ form.content.value }}</textarea>
+                        </div>
+                    
+                        <!-- Image Field with Icon for Upload Button -->
+                        <div class="mb-3">
+                            <label for="{{ form.image.id_for_label }}" class="form-label">Soru Görseli</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="{{ form.image.id_for_label }}" name="{{ form.image.name }}" accept="image/*">
+                                <label class="input-group-text" for="{{ form.image.id_for_label }}">
+                                    <i class="fa-regular fa-image fa-lg" style="color: #74C0FC;"></i>
+                                </label>
+                            </div>
+                        </div>
+                    
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary">Soru Sor</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 column col-12 col-lg-12">
+
+                    <!-- Önceki soruların listesi -->
+                    {% if previous_questions %}
+                    <div class="ge-content" style="margin-top: 38px;">
+                        <h2>Önceki Sorular</h2>
+
+                        {% for previous_question in previous_questions %}
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                {% if previous_question.image %}
+                                <div class="col-md-4">
+                                    <img src="{{ previous_question.image.url }}" class="img-fluid rounded-start" alt="{{ previous_question.title }}">
+                                </div>
+                                {% endif %}
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><a
+                                                href="{% url 'community:question_detail' previous_question.id %}">{{ previous_question.title }}</a></h5>
+                                        <p class="card-text">{{ previous_question.content }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>Önceki sorular bulunamadı.</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-4 column col-12">
+
+            <!-- En Son Makaleler -->
+            {% include 'paper/partials/_latest_papers.html' %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js_files %}
+<script src="{% static 'community/js/scripts.js' %}"></script>
+{% endblock %}

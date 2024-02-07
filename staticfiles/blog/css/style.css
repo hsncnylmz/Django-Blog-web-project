@@ -1,0 +1,288 @@
+/* Kapak Fotoğrafı Stili */
+.row .col-md-5 .card img {
+    width: 100%;
+    height: 360px; /* Yüksekliği otomatik olarak ayarlar, oranları korur */
+    border-radius: 0.5rem; /* Dilerseniz kenar yuvarlatma miktarını ayarlayabilirsiniz */
+    object-fit: cover; /* Resmi kapak alanına sığacak şekilde ayarlar, oranları korur */
+    object-position: center; /* Resmi ortalar */
+    max-height: 360px; /* Maksimum yükseklik belirleyebilirsiniz */
+    /* Ek stil ayarlamalarını buraya ekleyebilirsiniz */
+}
+.row .col-md-3 .card img {
+    width: 100%;
+    height: 179px; /* Yüksekliği otomatik olarak ayarlar, oranları korur */
+    border-radius: 0.5rem; /* Dilerseniz kenar yuvarlatma miktarını ayarlayabilirsiniz */
+    object-fit: cover; /* Resmi kapak alanına sığacak şekilde ayarlar */
+    object-position: center; /* Resmi ortalar */
+    max-height: 379px; /* Maksimum yükseklik belirleyebilirsiniz */
+    /* Ek stil ayarlamalarını buraya ekleyebilirsiniz */
+}
+
+.card .row .col-md-4 img {
+    width: 100%;
+    height: auto; /* Yüksekliği otomatik olarak ayarlar, oranları korur */
+    border-radius: 0.5rem; /* Dilerseniz kenar yuvarlatma miktarını ayarlayabilirsiniz */
+    object-fit: cover; /* Resmi kapak alanına sığacak şekilde ayarlar */
+    object-position: center; /* Resmi ortalar */
+    max-height: 179px; /* Maksimum yükseklik belirleyebilirsiniz */
+    /* Ek stil ayarlamalarını buraya ekleyebilirsiniz */
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+.btn:active {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+/* 
+>------------ TYPO WEB  ----------------->
+*/
+p {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 400;
+    /* Medium */
+    font-style: normal;
+    font-size: large;
+}
+
+h5 {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 700;
+    /* Medium */
+    font-style: normal;
+    font-size: x-large;
+}
+
+h3 {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 500;
+    /* Medium */
+    font-style: normal;
+}
+
+h2 {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 600;
+    /* Medium */
+    font-style: normal;
+}
+
+h1 {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 600;
+    /* Medium */
+    font-style: normal;
+}
+
+a {
+    text-decoration: none;
+    /* Altını çiziyi kaldırır */
+    color: inherit;
+    /* Varsayılan renk kullanılacak, eğer başka bir renk tanımlanmışsa onu kullanır */
+}
+
+/* 
+>------------ TYPO WEB END ----------------->
+*/
+
+
+#headings-list {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 600;
+    /* Medium */
+    font-style: normal;
+    /* margin-top: 20px; */
+    /* position: sticky; */
+    top: 50px;
+    padding-top: 20px;
+}
+
+.heading-link {
+    font-family: 'RedHatDisplay', sans-serif;
+    font-weight: 500;
+    /* Medium */
+    font-style: normal;
+    font-size: larger;
+    display: block;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.heading-link:hover {
+    text-decoration: underline;
+    color: #4d4d4d;
+}
+
+.custom-button {
+    border-radius: 15px;
+    font-size: 11px;
+}
+
+/* 
+>------------ _hero_banner.html ----------------->
+*/
+
+
+/* hero_banner */
+.retro-layout .mid img {
+    width: 100%;
+    height: auto; /* Yüksekliği otomatik olarak ayarlar, oranları korur */
+    border-radius: 0.5rem; /* Dilerseniz kenar yuvarlatma miktarını ayarlayabilirsiniz */
+    object-fit: cover; /* Resmi kapak alanına sığacak şekilde ayarlar */
+    object-position: center; /* Resmi ortalar */
+    max-height: 415px; /* Maksimum yükseklik belirleyebilirsiniz */
+    /* Ek stil ayarlamalarını buraya ekleyebilirsiniz */
+}
+
+.retro-layout .sag img {
+    width: 90%;
+    border-radius: 0.5rem; /* Dilerseniz kenar yuvarlatma miktarını ayarlayabilirsiniz */
+    object-fit: cover; /* Resmi kapak alanına sığacak şekilde ayarlar */
+    object-position: center; /* Resmi ortalar */
+    max-height: 300px; /* Maksimum yükseklik belirleyebilirsiniz */
+    /* Ek stil ayarlamalarını buraya ekleyebilirsiniz */
+}
+
+/* Özel stil ayarları */
+.retro-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.retro-layout .col-md-6 .row {
+    width: 100%;
+}
+
+.retro-layout .col-md-5,
+.retro-layout .col-md-4,
+.retro-layout .col-md-3 {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-size: cover;
+    /* Opsiyonel: Resmi kaplamak için */
+}
+
+.retro-layout .col-md-5 {
+    width: 40%;
+    height: 30%;
+}
+
+.card-img-overlay {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 2), rgba(255, 255, 255, 0));
+}
+
+.retro-layout .col-md-5 {
+    width: 40%;
+    height: 100%;
+}
+
+.retro-layout .col-md-3 {
+    width: 20%;
+    height: 100%;
+}
+
+.retro-layout .col-md-6 {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.retro-layout .col-md-6 .row {
+    width: 100%;
+}
+
+.retro-layout .col-md-6 .col-md-3 {
+    width: 100%;
+    /* İkinci sütun içindeki içerikler arasına boşluk ekle */
+}
+
+.retro-layout .col-md-6 .col-md-6 {
+    width: 100%;
+    height: 30%;
+}
+
+@media (max-width: 767px) {
+    .retro-layout .col-md-5,
+    .retro-layout .col-md-4,
+    .retro-layout .col-md-3,
+    .retro-layout .col-md-6 {
+        width: 100%;
+    }
+}
+
+.custom-card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+}
+
+/* 
+>------------ _hero_banner.html END ----------------->
+*/
+
+/* widget Fotoğrafı Stili */
+.widget .widget-body img {
+    width: 100%;
+    height: auto; /* Yüksekliği otomatik olarak ayarlar, oranları korur */
+    border-radius: 0.5rem; /* Dilerseniz kenar yuvarlatma miktarını ayarlayabilirsiniz */
+    object-fit: cover; /* Resmi kapak alanına sığacak şekilde ayarlar */
+    object-position: center; /* Resmi ortalar */
+    max-height: 120px; /* Maksimum yükseklik belirleyebilirsiniz */
+    /* Ek stil ayarlamalarını buraya ekleyebilirsiniz */
+}
+
+/* 
+>------------ Blog Details Html User Bio ----------------->
+*/
+.bg-custom{
+    background-color: #C0CCE2;
+}
+.btn-xs {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.6rem;
+    line-height: 1.2;
+    border-radius: 0.25rem;
+}
+.btn-primary-soft {
+    color: #2163e8;
+    background-color: rgba(33, 99, 232, 0.1);
+}
+.btn-primary-soft:active, .btn-primary-soft:hover {
+    color: #fff;
+    background-color: #2163e8;
+    border-color: #2163e8;
+}
+.btn-primary-soft:focus {
+    color: #2163e8;
+    background-color: rgba(33, 99, 232, 0.1);
+    border-color: transparent;
+}
+
+/* 
+>------------ Blog Details Html User Bio END----------------->
+*/
+
+.like-btn:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.dislike-btn:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+}

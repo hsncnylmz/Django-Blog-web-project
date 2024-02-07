@@ -1,0 +1,41 @@
+<!-- templates/community/edit_question.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Soruyu Düzenle{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2>Soruyu Düzenle</h2>
+    <form method="post" action="{% url 'community:edit_question' question_id=question.id %}"
+        enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Title Field -->
+        <div class="mb-3">
+            <label for="{{ form.title.id_for_label }}" class="form-label">Başlık:</label>
+            <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" class="form-control"
+                value="{{ question.title }}">
+        </div>
+
+        <!-- Content Field -->
+        <div class="mb-3">
+            <label for="{{ form.content.id_for_label }}" class="form-label">İçerik:</label>
+            <textarea name="{{ form.content.name }}" id="{{ form.content.id_for_label }}"
+                class="form-control">{{ question.content }}</textarea>
+        </div>
+
+        <!-- Image Field -->
+        <div class="mb-3">
+            <label for="{{ form.image.id_for_label }}" class="form-label">Resim:</label>
+            <input type="file" name="{{ form.image.name }}" id="{{ form.image.id_for_label }}" class="form-control">
+            {% if question.image %}
+            <img src="{{ question.image.url }}" alt="Question Image" class="img-thumbnail mt-2"
+                style="max-width: 200px;">
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Düzenlemeyi Kaydet</button>
+    </form>
+</div>
+{% endblock %}

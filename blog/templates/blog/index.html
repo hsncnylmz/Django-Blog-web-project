@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+{% endblock %}
+
+{% block title %} Anasayfa {% endblock %}
+
+{% block content %}
+
+<!-- Banner alanı -->
+<div class="container-fluid">
+            {% include 'blog/partials/_hero_banner.html' %}
+</div>
+
+<!-- Anasayfa İçerik alanı -->
+<div class="container align-items-center">
+    <div class="row">
+        <div class="col-sm-9">
+            <!-- İçerik alanı  -->
+            {% if blogs|length > 0 %}
+                {% for blog in blogs|dictsortreversed:"publish_date" %}
+                    {% if blog.is_home and blog.is_active %}
+                        {% include 'blog/partials/_blogs.html' %}
+                    {% endif %}
+                {% endfor%}
+            {% endif %}
+
+        </div>
+        <div class="col-sm-3">
+            <!-- sağ alan  -->
+            {% include 'partials/_categories.html' %}
+            {% include 'blog/partials/_all_tags.html' %}
+            {% include 'paper/partials/_latest_papers.html' %}
+        </div>
+    </div>
+</div>
+
+{%endblock%}
