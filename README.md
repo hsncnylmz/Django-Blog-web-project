@@ -25,7 +25,7 @@ Projemiz, kullanıcıların blog ve dökümanlarını oluşturmasına, düzenlem
 - **Sosyal Medya Entegrasyonu:** Kullanıcılar sosyal medya hesaplarını ve kişisel bilgilerini düzenleyebilirler.
 
 **Örnek bir profil sayfası:** [Profil Sayfası](https://blogcode.azurewebsites.net/account/profile/hasan/)
-![Proje Logo](images/static/img/code_blog_profil.png)
+**![Proje Logo]([https://example.com/logo.png](https://github.com/hsncnylmz/Django-Blog-web-project/blob/main/static/img/code_blog_profil.png))
 
 ### Yorum ve Reaksiyon Sistemi
 
