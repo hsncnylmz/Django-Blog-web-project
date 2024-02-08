@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--6kvlqn&ml&iofp^gn%tz_-e7h!(u)$w@xqbi%mdo*o=%jkap4'
+SECRET_KEY = '#'
 # SECRET_KEY = getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -86,31 +86,12 @@ SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': '1023496031221-mgm22h682mmt6oqvdf565jst5mvh5475.apps.googleusercontent.com',
-            'secret': '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',
-            'key': 'AIzaSyDeD-Qrkdm2nYXkHQ1l5W1TsMG_Ou2ak_Q'
+            'client_id': '#',
+            'secret': '#',
+            'key': '#'
         }
     }
 }
-
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'SCOPE': [
-#             'profile',
-#             'email',
-#         ],
-#         'AUTH_PARAMS': {
-#             'access_type': 'online',
-#         }
-#     }
-# }
-
-# IYZIPAY_SETTINGS = {
-#     'api_key': 'sandbox-VBdrbXQE60F4FyExrEPL3HxxYEKaMW95',
-#     'secret_key': 'sandbox-nlKE9Ed7Ace0uzXmtjIv9NOwRzDrXTte',
-#     'base_url': 'sandbox-api.iyzipay.com'
-# }
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -157,10 +138,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -176,9 +153,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'tr-tr'
 
 TIME_ZONE = 'UTC'
@@ -186,10 +160,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
@@ -200,8 +170,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_ROOT = BASE_DIR / 'uploads'
 MEDIA_URL = '/images/'
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
