@@ -51,9 +51,9 @@ def invoice(request, paper_slug):
 
 # payment iyzico/views.py
 
-api_key = 'sandbox-VBdrbXQE60F4FyExrEPL3HxxYEKaMW95'
-secret_key = 'sandbox-nlKE9Ed7Ace0uzXmtjIv9NOwRzDrXTte'
-base_url = 'sandbox-api.iyzipay.com'
+api_key = '#'
+secret_key = '#'
+base_url = '#'
 
 options ={
     'api_key': api_key,
@@ -65,13 +65,6 @@ sozlukToken = list()
 
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
-
-# def index(request):
-#     context = dict()
-#     context['mesaj'] = 'django ile iyzico ödeme entegrasyonu'
-#     template = 'index.html'
-
-#     return render(request,template,context)
 
 @csrf_exempt
 def payment(request):
